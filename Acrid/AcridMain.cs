@@ -14,20 +14,20 @@ using RoR2.Projectile;
 
 namespace ROR1AltSkills.Acrid
 {
-    public class AcridMain2 : SurvivorMain
+    public class AcridMain : SurvivorMain
     {
         public override string CharacterName => "Croco";
 
         #region passive
         public static DamageAPI.ModdedDamageType OriginalPoisonOnHit;
-        public static float cfgOriginalPoisonDamageCoefficient = 0.24f;
+        public static float OriginalPoisonDamageCoefficient = 0.24f;
 
         public static DotController.DotIndex OriginalPoisonDot;
         public static CustomBuff OriginalPoisonBuff;
         #endregion
         #region primary
-        public static float cfgFesteringWoundsDamageCoefficient = 1.8f;
-        public static float cfgFesteringWoundsDPSCoefficient = 0.9f;
+        public static float FesteringWoundsDamageCoefficient = 1.8f;
+        public static float FesteringWoundsDPSCoefficient = 0.9f;
         #endregion
         #region utility
         public static GameObject acidPool;
@@ -35,16 +35,16 @@ namespace ROR1AltSkills.Acrid
 
         internal static float acidPoolScale = 1f;
         private static float buffWard_to_acidPoolScale_ratio = 5f; //shouldn't be changed
-        internal static float cfgCausticSludgeBuffDuration = 3f;
+        internal static float CausticSludgeBuffDuration = 3f;
 
-        internal static float cfgCausticSludgeActualScale = acidPoolScale * buffWard_to_acidPoolScale_ratio;
+        internal static float CausticSludgeActualScale = acidPoolScale * buffWard_to_acidPoolScale_ratio;
 
-        public static float cfgCausticSludgeLifetime = 12f;
-        public static float cfgCausticSludgeDuration = 2f;
-        public static float cfgCausticSludgeSlowDuration = 3f;
-        public static float cfgCausticSludgeDamageCoefficient = 0.5f;
+        public static float CausticSludgeLifetime = 12f;
+        public static float CausticSludgeDuration = 2f;
+        public static float CausticSludgeSlowDuration = 3f;
+        public static float CausticSludgeDamageCoefficient = 0.5f;
 
-        public static float cfgCausticSludgeLeapLandDamageCoefficient = 2f;
+        public static float CausticSludgeLeapLandDamageCoefficient = 2f;
 
         #endregion
         public override string ConfigCategory => "Acrid";
@@ -66,25 +66,25 @@ namespace ROR1AltSkills.Acrid
                 acidPool.transform.localScale *= acidPoolScale;
                 var buffWard = acidPool.AddComponent<BuffWard>();
                 buffWard.buffDef = RoR2Content.Buffs.CloakSpeed;
-                buffWard.buffDuration = cfgCausticSludgeBuffDuration;
+                buffWard.buffDuration = CausticSludgeBuffDuration;
                 buffWard.expires = false;
                 buffWard.floorWard = true;
-                buffWard.radius = cfgCausticSludgeActualScale;
+                buffWard.radius = CausticSludgeActualScale;
                 buffWard.requireGrounded = true;
                 buffWard.interval *= 0.5f;
 
                 var enemyBuffWard = acidPool.AddComponent<BuffWard>();
                 enemyBuffWard.buffDef = RoR2Content.Buffs.Slow60;
-                enemyBuffWard.buffDuration = cfgCausticSludgeBuffDuration;
+                enemyBuffWard.buffDuration = CausticSludgeBuffDuration;
                 enemyBuffWard.expires = false;
                 enemyBuffWard.floorWard = true;
-                enemyBuffWard.radius = cfgCausticSludgeActualScale;
+                enemyBuffWard.radius = CausticSludgeActualScale;
                 enemyBuffWard.requireGrounded = true;
                 enemyBuffWard.invertTeamFilter = true;
 
                 ProjectileDotZone projectileDotZone = acidPool.GetComponent<ProjectileDotZone>();
-                projectileDotZone.damageCoefficient = cfgCausticSludgeDamageCoefficient;
-                projectileDotZone.lifetime = cfgCausticSludgeLifetime;
+                projectileDotZone.damageCoefficient = CausticSludgeDamageCoefficient;
+                projectileDotZone.lifetime = CausticSludgeLifetime;
                 projectileDotZone.overlapProcCoefficient = 0f;
 
                 PoisonSplatController poisonSplatController = acidPool.AddComponent<PoisonSplatController>();
@@ -134,15 +134,15 @@ namespace ROR1AltSkills.Acrid
 
         public override void SetupConfig(ConfigFile config)
         {
-            cfgOriginalPoisonDamageCoefficient = config.Bind(ConfigCategory, "Original Poison Damage Coefficient", 0.24f, "The damage coefficient of the Original Poison.").Value;
-            cfgFesteringWoundsDamageCoefficient = config.Bind(ConfigCategory, "Festering Wounds Damage Coefficient", 1.8f, "").Value;
-            cfgFesteringWoundsDPSCoefficient = config.Bind(ConfigCategory, "Festering Wounds DPS Coefficient", 0.9f, "").Value;
-            cfgCausticSludgeBuffDuration = config.Bind(ConfigCategory, "Caustic Sludge Buff Duration", 3f, "").Value;
-            cfgCausticSludgeLifetime = config.Bind(ConfigCategory, "Caustic Sludge Lifetime", 12f, "").Value;
-            cfgCausticSludgeDuration = config.Bind(ConfigCategory, "Caustic Sludge Duration", 2f, "").Value;
-            cfgCausticSludgeSlowDuration = config.Bind(ConfigCategory, "Caustic Sludge Slow Duration", 3f, "").Value;
-            cfgCausticSludgeDamageCoefficient = config.Bind(ConfigCategory, "Caustic Sludge Damage Coefficient", 0.5f, "").Value;
-            cfgCausticSludgeLeapLandDamageCoefficient = config.Bind(ConfigCategory, "Caustic Sludge Leap Land Damage Coefficient", 2f, "").Value;
+            OriginalPoisonDamageCoefficient = config.Bind(ConfigCategory, "Original Poison Damage Coefficient", 0.24f, "The damage coefficient of the Original Poison.").Value;
+            FesteringWoundsDamageCoefficient = config.Bind(ConfigCategory, "Festering Wounds Damage Coefficient", 1.8f, "").Value;
+            FesteringWoundsDPSCoefficient = config.Bind(ConfigCategory, "Festering Wounds DPS Coefficient", 0.9f, "").Value;
+            CausticSludgeBuffDuration = config.Bind(ConfigCategory, "Caustic Sludge Buff Duration", 3f, "").Value;
+            CausticSludgeLifetime = config.Bind(ConfigCategory, "Caustic Sludge Lifetime", 12f, "").Value;
+            CausticSludgeDuration = config.Bind(ConfigCategory, "Caustic Sludge Duration", 2f, "").Value;
+            CausticSludgeSlowDuration = config.Bind(ConfigCategory, "Caustic Sludge Slow Duration", 3f, "").Value;
+            CausticSludgeDamageCoefficient = config.Bind(ConfigCategory, "Caustic Sludge Damage Coefficient", 0.5f, "").Value;
+            CausticSludgeLeapLandDamageCoefficient = config.Bind(ConfigCategory, "Caustic Sludge Leap Land Damage Coefficient", 2f, "").Value;
         }
 
         public override void SetupLanguage()
@@ -151,9 +151,10 @@ namespace ROR1AltSkills.Acrid
 
         public override void SetupPrimary()
         {
+            return;
             LanguageAPI.Add("DC_CROCO_PRIMARY_FESTERINGWOUNDS_NAME", "Festering Wounds");
-            LanguageAPI.Add("DC_CROCO_PRIMARY_FESTERINGWOUNDS_DESCRIPTION", $"Maul an enemy for <style=cIsDamage>{cfgFesteringWoundsDamageCoefficient * 100f}% damage</style>." +
-                $" The target is poisoned for <style=cIsDamage>{cfgFesteringWoundsDPSCoefficient * 100f}% damage per second</style>.");
+            LanguageAPI.Add("DC_CROCO_PRIMARY_FESTERINGWOUNDS_DESCRIPTION", $"Maul an enemy for <style=cIsDamage>{FesteringWoundsDamageCoefficient * 100f}% damage</style>." +
+                $" The target is poisoned for <style=cIsDamage>{FesteringWoundsDPSCoefficient * 100f}% damage per second</style>.");
 
             var mySkillDef = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDef.activationState = new SerializableEntityStateType(typeof(PoisonBite));
@@ -202,15 +203,15 @@ namespace ROR1AltSkills.Acrid
         public override void SetupUtility()
         {
             LanguageAPI.Add("DC_CROCO_UTILITY_CAUSTICSLUDGE_NAME", "Caustic Sludge");
-            LanguageAPI.Add("DC_CROCO_UTILITY_CAUSTICSLUDGE_DESCRIPTION", $"<style=cIsUtility>Leap in the air</style>, and secrete <style=cIsDamage>poisonous sludge</style> for {cfgCausticSludgeDuration} seconds." +
-                $" <style=cIsUtility>Speeds up allies,</style> while <style=cIsDamage>slowing and hurting enemies</style> for <style=cIsDamage>{cfgCausticSludgeDamageCoefficient * 100f}% damage</style>." +
-                $" If you are leaping, the impact deals <style=cIsDamage>{cfgCausticSludgeLeapLandDamageCoefficient * 100}% damage</style>.");
+            LanguageAPI.Add("DC_CROCO_UTILITY_CAUSTICSLUDGE_DESCRIPTION", $"<style=cIsUtility>Leap in the air</style>, and secrete <style=cIsDamage>poisonous sludge</style> for {CausticSludgeDuration} seconds." +
+                $" <style=cIsUtility>Speeds up allies,</style> while <style=cIsDamage>slowing and hurting enemies</style> for <style=cIsDamage>{CausticSludgeDamageCoefficient * 100f}% damage</style>." +
+                $" If you are leaping, the impact deals <style=cIsDamage>{CausticSludgeLeapLandDamageCoefficient * 100}% damage</style>.");
 
             var mySkillDefUtil = ScriptableObject.CreateInstance<SkillDef>();
             mySkillDefUtil.activationState = new SerializableEntityStateType(typeof(Acrid.LeapDropAcid));
             mySkillDefUtil.activationStateMachineName = "Weapon";
             mySkillDefUtil.baseMaxStock = 1;
-            mySkillDefUtil.baseRechargeInterval = cfgCausticSludgeLifetime + 3f;
+            mySkillDefUtil.baseRechargeInterval = CausticSludgeLifetime + 3f;
             mySkillDefUtil.beginSkillCooldownOnSkillEnd = true;
             mySkillDefUtil.canceledFromSprinting = false;
             mySkillDefUtil.fullRestockOnAssign = true;

@@ -14,13 +14,31 @@ using RoR2.Projectile;
 
 namespace ROR1AltSkills.Commando
 {
-    public class CommandoMain2 : SurvivorMain
+    public class CommandoMainOld
     {
-        public override string CharacterName => "Commando";
+        public static GameObject myCharacter = Resources.Load<GameObject>("prefabs/characterbodies/CommandoBody");
+        public static BodyIndex bodyIndex = myCharacter.GetComponent<CharacterBody>().bodyIndex;
 
         public static SkillDef rollSkillDef;
 
-        public override void SetupUtility()
+
+        public static void Init()
+        {
+            SetupSkills();
+
+            On.EntityStates.Commando.DodgeState.OnEnter += DodgeState_OnEnter;
+        }
+
+        private static void DodgeState_OnEnter(On.EntityStates.Commando.DodgeState.orig_OnEnter orig, EntityStates.Commando.DodgeState self)
+        {
+            orig(self);
+            if (self.outer.commonComponents.characterBody?.skillLocator?.utility?.skillDef && self.outer.commonComponents.characterBody.skillLocator.utility.skillDef == rollSkillDef)
+            {
+                self.outer.commonComponents.characterBody.AddTimedBuff(RoR2Content.Buffs.Immune, self.duration);
+            }
+        }
+
+        private static void SetupSkills()
         {
             LanguageAPI.Add("DC_COMMANDO_UTILITY_TACTICALDIVE_NAME", "Tactical Dive");
             LanguageAPI.Add("DC_COMMANDO_UTILITY_TACTICALDIVE_DESCRIPTION", "<style=cIsDamage>Roll forward</style> a small distance. You <style=cIsUtility>cannot be hit</style> while rolling.");
@@ -51,7 +69,9 @@ namespace ROR1AltSkills.Commando
 
             LoadoutAPI.AddSkillDef(rollSkillDef);
 
-            var skillFamily = SurvivorSkillLocator.utility.skillFamily;
+            var skillLocator = myCharacter.GetComponent<SkillLocator>();
+
+            var skillFamily = skillLocator.utility.skillFamily;
 
             Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
@@ -60,23 +80,6 @@ namespace ROR1AltSkills.Commando
                 unlockableDef = null,
                 viewableNode = new ViewablesCatalog.Node(rollSkillDef.skillNameToken, false, null)
             };
-        }
-
-        public override void Hooks()
-        {
-            base.Hooks();
-
-            On.EntityStates.Commando.DodgeState.OnEnter += DodgeState_OnEnter;
-        }
-
-        private static void DodgeState_OnEnter(On.EntityStates.Commando.DodgeState.orig_OnEnter orig, EntityStates.Commando.DodgeState self)
-        {
-            orig(self);
-            if (self.outer.commonComponents.characterBody?.skillLocator?.utility?.skillDef
-                && self.outer.commonComponents.characterBody.skillLocator.utility.skillDef == rollSkillDef)
-            {
-                self.outer.commonComponents.characterBody.AddTimedBuff(RoR2Content.Buffs.Immune, self.duration);
-            }
         }
     }
 }

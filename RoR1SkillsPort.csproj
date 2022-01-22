@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Acrid\AcridMain_old.cs" />
+    <Compile Remove="Commando\CommandoMainOld.cs" />
+    <Compile Remove="Loader\StraightPullState.cs" />
+    <Compile Remove="Loader\SwingComboFistAlt - Copy.cs" />
+    <Compile Remove="Loader\SwingComboFistAlt.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>lib\0Harmony.dll</HintPath>
     </Reference>
