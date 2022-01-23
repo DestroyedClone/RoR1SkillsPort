@@ -16,7 +16,7 @@ using System.Security.Permissions;
 
 namespace ROR1AltSkills
 {
-    [BepInPlugin("com.DestroyedClone.OriginalSkills", "Original Skills", "1.0.0")]
+    [BepInPlugin("com.DestroyedClone.OriginalSkills", "Original Skills", "0.0.1")]
     [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.DifferentModVersionsAreOk)]
     [R2APISubmoduleDependency(nameof(LoadoutAPI), nameof(SurvivorAPI), nameof(LanguageAPI), nameof(ProjectileAPI), nameof(DamageAPI), nameof(BuffAPI), nameof(DotAPI))]
