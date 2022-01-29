@@ -6,7 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="Acrid\AcridMain_old.cs" />
+    <Compile Remove="Acrid\PoisonBite.cs" />
+    <Compile Remove="Acrid\PoisonSplatController.cs" />
     <Compile Remove="Commando\CommandoMainOld.cs" />
+    <Compile Remove="Loader\ConduitController.cs" />
+    <Compile Remove="Loader\LoaderMainOld.cs" />
+    <Compile Remove="Loader\PlaceConduit1.cs" />
+    <Compile Remove="Loader\PlaceConduit2.cs" />
     <Compile Remove="Loader\StraightPullState.cs" />
     <Compile Remove="Loader\SwingComboFistAlt - Copy.cs" />
     <Compile Remove="Loader\SwingComboFistAlt.cs" />
@@ -43,9 +49,6 @@
     <Reference Include="HGUnityUtils">
       <HintPath>lib\HGUnityUtils.dll</HintPath>
     </Reference>
-    <Reference Include="InLobbyConfig">
-      <HintPath>lib\InLobbyConfig.dll</HintPath>
-    </Reference>
     <Reference Include="MMHOOK_Assembly-CSharp">
       <HintPath>lib\MMHOOK_Assembly-CSharp.dll</HintPath>
     </Reference>
@@ -66,9 +69,6 @@
     </Reference>
     <Reference Include="MonoMod.Utils">
       <HintPath>lib\MonoMod.Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="PaladinMod">
-      <HintPath>lib\PaladinMod.dll</HintPath>
     </Reference>
     <Reference Include="R2API">
       <HintPath>lib\R2API.dll</HintPath>

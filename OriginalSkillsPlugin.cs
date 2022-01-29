@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
+using System.Collections.Generic;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -30,6 +31,7 @@ namespace ROR1AltSkills
         {
             _config = Config;
             _logger = Logger;
+            AssemblySetup();
         }
 
         [RoR2.SystemInitializer(dependencies: typeof(RoR2.Language))]
@@ -38,7 +40,7 @@ namespace ROR1AltSkills
             LanguageAPI.Add(modkeyword, $"[ Original Skills Mod ]");
         }
 
-        [RoR2.SystemInitializer(dependencies: new Type[] { typeof(RoR2.SurvivorCatalog) })]
+        //[RoR2.SystemInitializer(dependencies: new Type[] { typeof(RoR2.SurvivorCatalog) })]
         public static void AssemblySetup() //credit to bubbet for base code
         {
             var survivorMainType = typeof(SurvivorMain);
