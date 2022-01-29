@@ -51,39 +51,42 @@ namespace ROR1AltSkills.Acrid
         public override void FixedUpdate()
 		{
 			base.FixedUpdate();
-			if (characterBody)
+			if (fixedAge < duration)
 			{
-				characterBody.isSprinting = true;
-			}
-			float ratio = GetIdealVelocity().magnitude / characterBody.moveSpeed;
-			int frequency = Mathf.FloorToInt(8f * ratio);
-			if (counter % frequency == 0)
-			{
-				Vector3 footPosition = base.characterBody.footPosition;
-				if (Vector3.Distance(characterBody.corePosition, lastPosition) >= acidPoolSize * distanceLeniency)
+				if (characterBody)
 				{
-					FireProjectileInfo fireProjectileInfo = new FireProjectileInfo
-					{
-						projectilePrefab = projectilePrefab,
-						crit = isCritAuthority,
-						force = 0f,
-						damage = characterBody.damage * 0.25f,
-						owner = gameObject,
-						rotation = Quaternion.identity,
-						position = characterBody.corePosition
-					};
-					if (hasLanded)
-                    {
-						fireProjectileInfo.projectilePrefab = groundedAcid;
-						fireProjectileInfo.position = footPosition;
-					}
-
-					ProjectileManager.instance.FireProjectile(fireProjectileInfo);
-					lastPosition = characterBody.corePosition;
+					characterBody.isSprinting = true;
 				}
+				float ratio = GetIdealVelocity().magnitude / characterBody.moveSpeed;
+				int frequency = Mathf.FloorToInt(8f * ratio);
+				if (counter % frequency == 0)
+				{
+					Vector3 footPosition = base.characterBody.footPosition;
+					if (Vector3.Distance(characterBody.corePosition, lastPosition) >= acidPoolSize * distanceLeniency)
+					{
+						FireProjectileInfo fireProjectileInfo = new FireProjectileInfo
+						{
+							projectilePrefab = projectilePrefab,
+							crit = isCritAuthority,
+							force = 0f,
+							damage = characterBody.damage * 0.25f,
+							owner = gameObject,
+							rotation = Quaternion.identity,
+							position = characterBody.corePosition
+						};
+						if (hasLanded)
+						{
+							fireProjectileInfo.projectilePrefab = groundedAcid;
+							fireProjectileInfo.position = footPosition;
+						}
+
+						ProjectileManager.instance.FireProjectile(fireProjectileInfo);
+						lastPosition = characterBody.corePosition;
+					}
+				}
+				counter++;
 			}
-			counter++;
-			if (fixedAge >= duration)
+			else if (hasLanded)
 			{
 				outer.SetNextStateToMain();
 				return;
