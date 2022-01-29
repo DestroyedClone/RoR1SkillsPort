@@ -32,6 +32,7 @@ namespace ROR1AltSkills
             SetupLanguage();
             SetupSkills();
             Hooks();
+            SetupBuffs();
         }
 
         public void SetupDefaults()
@@ -55,6 +56,8 @@ namespace ROR1AltSkills
         public virtual void SetupConfig(ConfigFile config) { }
 
         public virtual void SetupLanguage() { }
+
+        public virtual void SetupBuffs() { }
 
         public void SetupAssets()
         {
