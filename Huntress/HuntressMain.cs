@@ -22,7 +22,7 @@ namespace ROR1AltSkills.Huntress
         public static GameObject projectileBombletsPrefab;
 
         public static float clusterBombDamageCoefficient = 3.2f;
-        public static float clusterBombChildDamageCoefficient = 3.2f;
+        public static float clusterBombChildDamageCoefficient = 1.2f;
         public static int clusterBombChildCount = 6;
 
         public override void SetupConfig(ConfigFile config)
