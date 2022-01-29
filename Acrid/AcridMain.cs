@@ -19,11 +19,11 @@ namespace ROR1AltSkills.Acrid
         public override string CharacterName => "Croco";
 
         #region passive
-        public static DamageAPI.ModdedDamageType OriginalPoisonOnHit;
-        public static float OriginalPoisonDamageCoefficient = 0.24f;
+        //public static DamageAPI.ModdedDamageType OriginalPoisonOnHit;
+        //public static float OriginalPoisonDamageCoefficient = 0.24f;
 
-        public static DotController.DotIndex OriginalPoisonDot;
-        public static CustomBuff OriginalPoisonBuff;
+        //public static DotController.DotIndex OriginalPoisonDot;
+        //public static CustomBuff OriginalPoisonBuff;
         #endregion
         #region primary
         public static float FesteringWoundsDamageCoefficient = 1.8f;
@@ -34,7 +34,7 @@ namespace ROR1AltSkills.Acrid
         public static GameObject acidPoolDrop;
 
         internal static float acidPoolScale = 1f;
-        private static float buffWard_to_acidPoolScale_ratio = 5f; //shouldn't be changed
+        private static readonly float buffWard_to_acidPoolScale_ratio = 5f; //shouldn't be changed
         internal static float CausticSludgeBuffDuration = 3f;
 
         internal static float CausticSludgeActualScale = acidPoolScale * buffWard_to_acidPoolScale_ratio;
@@ -53,7 +53,6 @@ namespace ROR1AltSkills.Acrid
         {
             base.Init(config);
             SetupProjectiles();
-            SetupBuffs();
         }
 
         private static void SetupProjectiles()
@@ -87,10 +86,10 @@ namespace ROR1AltSkills.Acrid
                 projectileDotZone.lifetime = CausticSludgeLifetime;
                 projectileDotZone.overlapProcCoefficient = 0f;
 
-                PoisonSplatController poisonSplatController = acidPool.AddComponent<PoisonSplatController>();
-                poisonSplatController.destroyOnTimer = acidPool.GetComponent<DestroyOnTimer>();
-                poisonSplatController.projectileDotZone = projectileDotZone;
-                poisonSplatController.projectileController = acidPool.GetComponent<ProjectileController>();
+                //PoisonSplatController poisonSplatController = acidPool.AddComponent<PoisonSplatController>();
+                //poisonSplatController.destroyOnTimer = acidPool.GetComponent<DestroyOnTimer>();
+                //poisonSplatController.projectileDotZone = projectileDotZone;
+                //poisonSplatController.projectileController = acidPool.GetComponent<ProjectileController>();
 
                 ProjectileAPI.Add(acidPool);
 
@@ -114,27 +113,16 @@ namespace ROR1AltSkills.Acrid
                 projectileImpactExplosion.impactEffect = null;
                 projectileImpactExplosion.destroyOnEnemy = false;
 
-                acidPoolDrop.AddComponent<PoisonFallController>();
+                //acidPoolDrop.AddComponent<PoisonFallController>();
 
                 ProjectileAPI.Add(acidPoolDrop);
             }
             LeapDropAcid.projectilePrefab = acidPoolDrop;
         }
 
-        private static void SetupBuffs()
-        {
-            var buffDef = ScriptableObject.CreateInstance<BuffDef>();
-            buffDef.buffColor = Color.green;
-            buffDef.canStack = true;
-            buffDef.isDebuff = true;
-            buffDef.iconSprite = RoR2Content.Buffs.Poisoned.iconSprite;
-
-            OriginalPoisonBuff = new CustomBuff(buffDef);
-        }
-
         public override void SetupConfig(ConfigFile config)
         {
-            OriginalPoisonDamageCoefficient = config.Bind(ConfigCategory, "Original Poison Damage Coefficient", 0.24f, "The damage coefficient of the Original Poison.").Value;
+            //OriginalPoisonDamageCoefficient = config.Bind(ConfigCategory, "Original Poison Damage Coefficient", 0.24f, "The damage coefficient of the Original Poison.").Value;
             FesteringWoundsDamageCoefficient = config.Bind(ConfigCategory, "Festering Wounds Damage Coefficient", 1.8f, "").Value;
             FesteringWoundsDPSCoefficient = config.Bind(ConfigCategory, "Festering Wounds DPS Coefficient", 0.9f, "").Value;
             CausticSludgeBuffDuration = config.Bind(ConfigCategory, "Caustic Sludge Buff Duration", 3f, "").Value;
@@ -152,7 +140,7 @@ namespace ROR1AltSkills.Acrid
         public override void SetupPrimary()
         {
             return;
-            LanguageAPI.Add("DC_CROCO_PRIMARY_FESTERINGWOUNDS_NAME", "Festering Wounds");
+            /*LanguageAPI.Add("DC_CROCO_PRIMARY_FESTERINGWOUNDS_NAME", "Festering Wounds");
             LanguageAPI.Add("DC_CROCO_PRIMARY_FESTERINGWOUNDS_DESCRIPTION", $"Maul an enemy for <style=cIsDamage>{FesteringWoundsDamageCoefficient * 100f}% damage</style>." +
                 $" The target is poisoned for <style=cIsDamage>{FesteringWoundsDPSCoefficient * 100f}% damage per second</style>.");
 
@@ -193,7 +181,7 @@ namespace ROR1AltSkills.Acrid
                 skillDef = mySkillDef,
                 unlockableDef = null,
                 viewableNode = new ViewablesCatalog.Node(mySkillDef.skillNameToken, false, null)
-            };
+            };*/
         }
 
         public override void SetupSecondary()
@@ -211,7 +199,7 @@ namespace ROR1AltSkills.Acrid
             mySkillDefUtil.activationState = new SerializableEntityStateType(typeof(Acrid.LeapDropAcid));
             mySkillDefUtil.activationStateMachineName = "Weapon";
             mySkillDefUtil.baseMaxStock = 1;
-            mySkillDefUtil.baseRechargeInterval = CausticSludgeLifetime + 3f;
+            mySkillDefUtil.baseRechargeInterval = CausticSludgeLifetime;
             mySkillDefUtil.beginSkillCooldownOnSkillEnd = true;
             mySkillDefUtil.canceledFromSprinting = false;
             mySkillDefUtil.fullRestockOnAssign = true;
